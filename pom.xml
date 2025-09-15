@@ -1,38 +1,127 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.simpltab</groupId>
     <artifactId>incremental-compilation-lombok</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>Archetype - incremental-compilation-lombok</name>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>shared</module>
+        <module>bootstrap</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.simpltab</groupId>
+                <artifactId>shared</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <properties>
+        <revision>1.0-SNAPSHOT</revision>
+
+        <java.version>17</java.version>
         <junit.version>5.13.4</junit.version>
         <lombok.version>1.18.26</lombok.version>
         <fastjson.version>2.0.52</fastjson.version>
+        <flatten-maven-plugin.version>1.7.2</flatten-maven-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.fastjson2</groupId>
-            <artifactId>fastjson2</artifactId>
-            <version>${fastjson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <profiles>
+        <profile>
+            <id>opt</id>
+            <properties>
+                <maven-compiler-plugin.version>4.0.0-beta-3-SNAPSHOT</maven-compiler-plugin.version>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <source/>
+                            <target/>
+                            <basedir/>
+                            <mainOutputDirectory/>
+                            <mojoStatusPath/>
+                            <outputDirectory/>
+                            <projectArtifact/>
+
+                            <encoding>UTF-8</encoding>
+                            <release>${java.version}</release>
+                            <incrementalCompilation>options,dependencies,sources,rebuild-on-change
+                            </incrementalCompilation>
+                            <annotationProcessors>
+                                <annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor
+                                </annotationProcessor>
+                                <annotationProcessor>lombok.launch.AnnotationProcessorHider$ClaimingProcessor
+                                </annotationProcessor>
+                            </annotationProcessors>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${flatten-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>UTF-8</encoding>
+                        <release>${java.version}</release>
+                        <annotationProcessors>
+                            <annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor
+                            </annotationProcessor>
+                            <annotationProcessor>lombok.launch.AnnotationProcessorHider$ClaimingProcessor
+                            </annotationProcessor>
+                        </annotationProcessors>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>
