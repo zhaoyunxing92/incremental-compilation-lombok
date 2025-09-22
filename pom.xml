@@ -1,6 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.5</version>
+    </parent>
+
     <groupId>org.simpltab</groupId>
     <artifactId>incremental-compilation-lombok</artifactId>
     <version>${revision}</version>
@@ -17,6 +24,16 @@
                 <groupId>org.simpltab</groupId>
                 <artifactId>shared</artifactId>
                 <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2-extension</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2-extension-spring6</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -51,17 +68,19 @@
                             <mojoStatusPath/>
                             <outputDirectory/>
                             <projectArtifact/>
+                            <compilerArgs>
+                                <arg>-g</arg>
+                            </compilerArgs>
 
                             <encoding>UTF-8</encoding>
                             <release>${java.version}</release>
-                            <incrementalCompilation>options,dependencies,sources,rebuild-on-change
-                            </incrementalCompilation>
-                            <annotationProcessors>
-                                <annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor
-                                </annotationProcessor>
-                                <annotationProcessor>lombok.launch.AnnotationProcessorHider$ClaimingProcessor
-                                </annotationProcessor>
-                            </annotationProcessors>
+                            <incrementalCompilation>options,dependencies,sources</incrementalCompilation>
+<!--                            <annotationProcessors>-->
+<!--                                <annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor-->
+<!--                                </annotationProcessor>-->
+<!--                                <annotationProcessor>lombok.launch.AnnotationProcessorHider$ClaimingProcessor-->
+<!--                                </annotationProcessor>-->
+<!--                            </annotationProcessors>-->
                         </configuration>
                     </plugin>
                 </plugins>

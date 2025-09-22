@@ -3,3 +3,5 @@
  */
 
 rootProject.name = 'incremental-compilation-lombok'
+include(':shared')
+include(':bootstrap')

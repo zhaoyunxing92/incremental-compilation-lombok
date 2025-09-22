@@ -3,10 +3,16 @@
 
 [versions]
 com-alibaba-fastjson2-fastjson2 = "2.0.52"
+com-alibaba-fastjson2-fastjson2-extension = "2.0.52"
+com-alibaba-fastjson2-fastjson2-extension-spring6 = "2.0.52"
 org-junit-jupiter-junit-jupiter-api = "5.13.4"
 org-projectlombok-lombok = "1.18.26"
+org-springframework-boot-spring-boot-starter-web = "3.0.5"
 
 [libraries]
 com-alibaba-fastjson2-fastjson2 = { module = "com.alibaba.fastjson2:fastjson2", version.ref = "com-alibaba-fastjson2-fastjson2" }
+com-alibaba-fastjson2-fastjson2-extension = { module = "com.alibaba.fastjson2:fastjson2-extension", version.ref = "com-alibaba-fastjson2-fastjson2-extension" }
+com-alibaba-fastjson2-fastjson2-extension-spring6 = { module = "com.alibaba.fastjson2:fastjson2-extension-spring6", version.ref = "com-alibaba-fastjson2-fastjson2-extension-spring6" }
 org-junit-jupiter-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "org-junit-jupiter-junit-jupiter-api" }
 org-projectlombok-lombok = { module = "org.projectlombok:lombok", version.ref = "org-projectlombok-lombok" }
+org-springframework-boot-spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "org-springframework-boot-spring-boot-starter-web" }
